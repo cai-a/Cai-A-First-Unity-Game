@@ -4,10 +4,18 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
+    public float sprintSpeed = 10f;
 
     void Update()
     {
         Vector2 movement = Vector2.zero;
+
+        float currentSpeed = speed;
+
+        if (Keyboard.current.leftShiftKey.isPressed)
+        {
+            currentSpeed = sprintSpeed;
+        }
 
         if (Keyboard.current.wKey.isPressed ||
             Keyboard.current.upArrowKey.isPressed)
@@ -34,6 +42,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         transform.position +=
-            (Vector3)(movement.normalized * speed * Time.deltaTime);
+            (Vector3)(movement.normalized * currentSpeed * Time.deltaTime);
     }
 }
