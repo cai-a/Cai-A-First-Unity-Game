@@ -4,6 +4,13 @@ public class Collectible : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D other)
     {
-        Destroy(gameObject);
+        PlayerScore playerScore = other.GetComponent<PlayerScore>();
+
+if (playerScore != null)
+{
+    playerScore.AddPoint();
+    Destroy(gameObject);
+}
+
     }
 }
