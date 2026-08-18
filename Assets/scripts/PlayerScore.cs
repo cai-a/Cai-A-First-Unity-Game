@@ -11,22 +11,27 @@ public class PlayerScore : MonoBehaviour
     public GameManager gameManager;
 
     public void AddPoint()
-{
-    score += 1;
-
-    scoreText.text = "Score: " + score;
-
-    Debug.Log("Score: " + score);
-
-    if (score==winScore) 
     {
-        winText.gameObject.SetActive(true);
+        if (gameManager.currentState != GameManager.GameState.Playing)
+        {
+            return;
+        }
+        score += 1;
+
+        scoreText.text = "Score: " + score;
+
+        Debug.Log("Score: " + score);
+
+        if (score>=winScore) 
+        {
+            gameManager.WinGame();
+            winText.gameObject.SetActive(true);
+        }
     }
-}
 
-void Update()
+    void Update()
     {
-        if (score >= winScore && Keyboard.current.rKey.wasPressedThisFrame)
+        if (gameManager.currentState == GameManager.GameState.Won && Keyboard.current.rKey.wasPressedThisFrame)
         {
             gameManager.RestartGame();
         }

@@ -11,7 +11,7 @@ public class PlayerHealth : MonoBehaviour
 
     void Update()
     {
-        if (isDead && Keyboard.current.rKey.wasPressedThisFrame)
+        if (gameManager.currentState == GameManager.GameState.Dead && Keyboard.current.rKey.wasPressedThisFrame)
         {
             gameManager.RestartGame();
         }
@@ -19,6 +19,11 @@ public class PlayerHealth : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
+        if (gameManager.currentState != GameManager.GameState.Playing)
+        {
+            return;
+        }
+
         if (isDead)
         {
             return;
@@ -30,6 +35,8 @@ public class PlayerHealth : MonoBehaviour
 
         if (health <= 0) 
         {
+            gameManager.LoseGame();
+
             isDead = true;
 
             PlayerMovement playerMovement = GetComponent<PlayerMovement>();
