@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEngine.InputSystem;
 
 public class PlayerScore : MonoBehaviour
 {
@@ -26,14 +25,6 @@ public class PlayerScore : MonoBehaviour
         {
             gameManager.WinGame();
             winText.gameObject.SetActive(true);
-        }
-    }
-
-    void Update()
-    {
-        if (gameManager.currentState == GameManager.GameState.Won && Keyboard.current.rKey.wasPressedThisFrame)
-        {
-            gameManager.RestartGame();
         }
     }
 }

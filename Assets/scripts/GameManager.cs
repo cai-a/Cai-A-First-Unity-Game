@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,8 +10,15 @@ public class GameManager : MonoBehaviour
         Won,
         Dead
     }
-
     public GameState currentState = GameState.Playing;
+    
+    void Update()
+    {
+        if (currentState != GameState.Playing && Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            RestartGame();
+        }
+    }
 
     public void WinGame()
     {
@@ -35,6 +43,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Game State: Dead");
     }
+    
     public void RestartGame()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
