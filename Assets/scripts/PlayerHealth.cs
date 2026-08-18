@@ -4,7 +4,9 @@ using TMPro;
 public class PlayerHealth : MonoBehaviour
 {
     public int health = 3;
+    public int maxHealth = 3;
     public TMP_Text deathText;
+    public TMP_Text healthText;
     public GameManager gameManager;
     public void TakeDamage(int damage)
     {
@@ -14,6 +16,9 @@ public class PlayerHealth : MonoBehaviour
         }
 
         health -= damage;
+        health = Mathf.Clamp(health, 0, maxHealth);
+
+        healthText.text = "Health: " + health;
 
         Debug.Log("Health: " + health);
 
