@@ -6,11 +6,10 @@ public class Collectible : MonoBehaviour
     {
         PlayerScore playerScore = other.GetComponent<PlayerScore>();
 
-if (playerScore != null)
-{
-    playerScore.AddPoint();
-    Destroy(gameObject);
-}
-
+        if (playerScore != null)
+        {
+            playerScore.AddPoint();
+            Destroy(gameObject);
+        }
     }
 }
