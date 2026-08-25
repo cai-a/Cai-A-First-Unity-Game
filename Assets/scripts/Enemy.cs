@@ -2,9 +2,19 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public enum EnemyState
+    {
+        Idle,
+        Chase,
+        Attack
+    }
+
+    public EnemyState currentState = EnemyState.Idle;
+    
     public Transform player;
     public GameManager gameManager;
     public float speed = 2f;
+    public float attackRange = 1f;
     public float chaseRange = 5f;
     public int damage = 1;
     public float damageCooldown = 1f;
@@ -53,22 +63,44 @@ public class Enemy : MonoBehaviour
 
         if (distanceToPlayer > chaseRange)
         {
-            return;
+            currentState = EnemyState.Idle;
+        }
+        else if (distanceToPlayer > attackRange)
+        {
+            currentState = EnemyState.Chase;
+        }
+        else
+        {
+            currentState = EnemyState.Attack;
         }
 
-        Vector2 direction = toPlayer.normalized;
-    
+        switch (currentState)
+        {
+            case EnemyState.Idle:
+                break;
 
-            rb.MovePosition(
-            rb.position + direction * speed * Time.fixedDeltaTime
-        );
-    
+            case EnemyState.Chase:
+                Vector2 direction = toPlayer.normalized;
+
+                rb.MovePosition(
+                    rb.position + direction * speed * Time.fixedDeltaTime
+                );
+                break;
+
+            case EnemyState.Attack:
+                break;
+        }
     }
 
     void OnTriggerStay2D(Collider2D other)
     {
 
         if (gameManager.currentState != GameManager.GameState.Playing)
+        {
+            return;
+        }
+
+        if (currentState != EnemyState.Attack)
         {
             return;
         }
