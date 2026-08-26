@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     public float damageCooldown = 1f;
     private float damageTimer = 0f;
     private Rigidbody2D rb;
+    public Transform[] patrolPoints;
+    private int currentPatrolPoint = 0;
 
     void Awake()
     {
@@ -45,6 +47,32 @@ public class Enemy : MonoBehaviour
         if (damageTimer > 0f)
         {
             damageTimer -= Time.deltaTime;
+        }
+    }
+
+    void Patrol()
+    {
+        if (patrolPoints.Length < 2)
+        {
+            return;
+        }
+        
+        Transform targetPoint = patrolPoints[currentPatrolPoint];
+
+        Vector2 toTarget =
+            (Vector2)targetPoint.position - rb.position;
+
+         Vector2 direction = toTarget.normalized;
+
+         rb.MovePosition(
+            rb.position + direction * speed * Time.fixedDeltaTime
+        );
+
+        float distanceToTarget = toTarget.magnitude;
+
+        if (distanceToTarget < 0.1f)
+        {
+            currentPatrolPoint = 1 - currentPatrolPoint;
         }
     }
 
@@ -77,6 +105,7 @@ public class Enemy : MonoBehaviour
         switch (currentState)
         {
             case EnemyState.Idle:
+                Patrol();
                 break;
 
             case EnemyState.Chase:
