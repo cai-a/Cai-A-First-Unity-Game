@@ -62,18 +62,19 @@ public class Enemy : MonoBehaviour
         Vector2 toTarget =
             (Vector2)targetPoint.position - rb.position;
 
-         Vector2 direction = toTarget.normalized;
-
-         rb.MovePosition(
-            rb.position + direction * speed * Time.fixedDeltaTime
-        );
-
         float distanceToTarget = toTarget.magnitude;
 
         if (distanceToTarget < 0.1f)
         {
-            currentPatrolPoint = 1 - currentPatrolPoint;
+            currentPatrolPoint =
+                (currentPatrolPoint + 1) % patrolPoints.Length;
+            return;
         }
+
+         Vector2 direction = toTarget.normalized;
+         rb.MovePosition(
+            rb.position + direction * speed * Time.fixedDeltaTime
+        );
     }
 
     void FixedUpdate()
