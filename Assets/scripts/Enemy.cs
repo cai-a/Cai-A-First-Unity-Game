@@ -9,20 +9,20 @@ public class Enemy : MonoBehaviour
         Attack
     }
 
-    public EnemyState currentState = EnemyState.Idle;
+    [SerializeField] private EnemyState currentState = EnemyState.Idle;
     
-    public Transform player;
-    public GameManager gameManager;
-    public float speed = 2f;
-    public float attackRange = 1f;
-    public float chaseRange = 5f;
-    public int damage = 1;
-    public float damageCooldown = 1f;
+    private Transform player;
+    private GameManager gameManager;
+    [SerializeField] private float speed = 2f;
+    [SerializeField] private float attackRange = 1f;
+    [SerializeField] private float chaseRange = 5f;
+    [SerializeField] private int damage = 1;
+    [SerializeField] private float damageCooldown = 1f;
+    [SerializeField] private float patrolPointRadius = 0.1f;
+    [SerializeField] private Transform[] patrolPoints;
     private float damageTimer = 0f;
-    public float patrolPointRadius = 0.1f;
-    private Rigidbody2D rb;
-    public Transform[] patrolPoints;
     private int currentPatrolPoint = 0;
+    private Rigidbody2D rb;
 
     void Awake()
     {
