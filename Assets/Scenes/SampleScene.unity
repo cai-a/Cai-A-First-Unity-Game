@@ -1865,6 +1865,10 @@ PrefabInstance:
       value: EnemyNormal
       objectReference: {fileID: 0}
     - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: patrolPoints.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: 'patrolPoints.Array.data[0]'
       value: 
       objectReference: {fileID: 1172208503}
@@ -3254,6 +3258,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 935077703}
+    - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: attackRange
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: gameManager
       value: 

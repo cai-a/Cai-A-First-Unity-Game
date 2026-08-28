@@ -19,6 +19,7 @@ public class Enemy : MonoBehaviour
     public int damage = 1;
     public float damageCooldown = 1f;
     private float damageTimer = 0f;
+    public float patrolPointRadius = 0.1f;
     private Rigidbody2D rb;
     public Transform[] patrolPoints;
     private int currentPatrolPoint = 0;
@@ -37,6 +38,16 @@ public class Enemy : MonoBehaviour
 
         gameManager = FindFirstObjectByType<GameManager>();
     }
+
+    void MoveToward(Vector2 targetPosition)
+    {
+        Vector2 direction = (targetPosition - rb.position).normalized;
+
+        rb.MovePosition(
+            rb.position + direction * speed * Time.fixedDeltaTime
+        );
+    }
+    
     void Update()
     {
         if (gameManager.currentState != GameManager.GameState.Playing)
@@ -64,17 +75,14 @@ public class Enemy : MonoBehaviour
 
         float distanceToTarget = toTarget.magnitude;
 
-        if (distanceToTarget < 0.1f)
+        if (distanceToTarget < patrolPointRadius)
         {
             currentPatrolPoint =
                 (currentPatrolPoint + 1) % patrolPoints.Length;
             return;
         }
 
-         Vector2 direction = toTarget.normalized;
-         rb.MovePosition(
-            rb.position + direction * speed * Time.fixedDeltaTime
-        );
+        MoveToward((Vector2)targetPoint.position);
     }
 
     void FixedUpdate()
@@ -110,11 +118,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case EnemyState.Chase:
-                Vector2 direction = toPlayer.normalized;
-
-                rb.MovePosition(
-                    rb.position + direction * speed * Time.fixedDeltaTime
-                );
+                MoveToward((Vector2)player.position);
                 break;
 
             case EnemyState.Attack:
@@ -149,5 +153,21 @@ public class Enemy : MonoBehaviour
         }
         
     }
+    void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.yellow;
+
+            Gizmos.DrawWireSphere(
+                transform.position,
+                chaseRange
+            );
+
+            Gizmos.color = Color.red;
+
+            Gizmos.DrawWireSphere(
+                transform.position,
+                attackRange
+            );
+        }
 }
 

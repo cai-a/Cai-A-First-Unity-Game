@@ -150,11 +150,8 @@ MonoBehaviour:
   chaseRange: 5
   damage: 2
   damageCooldown: 1
-  patrolPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  patrolPointRadius: 0.1
+  patrolPoints: []
 --- !u!50 &2106278065615679139
 Rigidbody2D:
   serializedVersion: 5
