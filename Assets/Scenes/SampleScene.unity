@@ -598,7 +598,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -188, y: 139}
+  m_AnchoredPosition: {x: -520, y: 315}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &348737466
@@ -807,7 +807,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 5.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1807,6 +1807,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyTank
       objectReference: {fileID: 0}
+    - target: {fileID: 4703913246862187451, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Color.b
+      value: 0.10332859
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703913246862187451, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Color.g
+      value: 0.10332859
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703913246862187451, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Color.r
+      value: 0.509434
+      objectReference: {fileID: 0}
+    - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: speed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: damage
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1863,6 +1883,26 @@ PrefabInstance:
     - target: {fileID: 3294346236378923278, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: m_Name
       value: EnemyNormal
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703913246862187451, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Color.b
+      value: 0.81960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703913246862187451, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Color.g
+      value: 0.15294115
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703913246862187451, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6941825
+      objectReference: {fileID: 0}
+    - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: damage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: attackRange
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: patrolPoints.Array.size
@@ -2059,7 +2099,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 208, y: 142}
+  m_AnchoredPosition: {x: 554, y: 309}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1247101498
@@ -3254,10 +3294,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyFast
       objectReference: {fileID: 0}
+    - target: {fileID: 4703913246862187451, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Color.b
+      value: 0.48718402
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703913246862187451, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Color.g
+      value: 0.48718402
+      objectReference: {fileID: 0}
+    - target: {fileID: 4703913246862187451, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6415094
+      objectReference: {fileID: 0}
+    - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: speed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: player
       value: 
       objectReference: {fileID: 935077703}
+    - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: chaseRange
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 8853758016609265314, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: attackRange
       value: 1

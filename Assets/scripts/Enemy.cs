@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     }
 
     [SerializeField] private EnemyState currentState = EnemyState.Idle;
+
     
     private Transform player;
     private GameManager gameManager;
@@ -23,17 +24,23 @@ public class Enemy : MonoBehaviour
     private float damageTimer = 0f;
     private int currentPatrolPoint = 0;
     private Rigidbody2D rb;
+    public EnemyState CurrentState => currentState;
 
     void Awake()
     {
+        Debug.Log("Enemy Awake");
         rb = GetComponent<Rigidbody2D>();
+    }
 
-        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+    void Start()
+    {
+        Debug.Log("Enemy Start");
+        GameObject playerObject =
+            GameObject.FindGameObjectWithTag("Player");
 
         if (playerObject != null)
         {
             player = playerObject.transform;
-
         }
 
         gameManager = FindFirstObjectByType<GameManager>();
@@ -85,6 +92,14 @@ public class Enemy : MonoBehaviour
         MoveToward((Vector2)targetPoint.position);
     }
 
+    void ChangeState(EnemyState newState)
+    {
+        if (currentState != newState)
+        {
+            currentState = newState;
+        }
+    }
+
     void FixedUpdate()
     {
         if (gameManager.currentState != GameManager.GameState.Playing)
@@ -100,15 +115,15 @@ public class Enemy : MonoBehaviour
 
         if (distanceToPlayer > chaseRange)
         {
-            currentState = EnemyState.Idle;
+            ChangeState(EnemyState.Idle);
         }
         else if (distanceToPlayer > attackRange)
         {
-            currentState = EnemyState.Chase;
+            ChangeState(EnemyState.Chase);
         }
         else
         {
-            currentState = EnemyState.Attack;
+            ChangeState(EnemyState.Attack);
         }
 
         switch (currentState)

@@ -12,7 +12,6 @@ public class PlayerHealth : MonoBehaviour
     void UpdateHealthDisplay()
         {
             healthText.text = "Health: " + health + " / " + maxHealth;
-            Debug.Log("Health: " + health);
         }
     public void TakeDamage(int damage)
     {
