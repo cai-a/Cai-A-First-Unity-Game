@@ -10,10 +10,6 @@ public class Enemy : MonoBehaviour
     }
 
     [SerializeField] private EnemyState currentState = EnemyState.Idle;
-
-    
-    private Transform player;
-    private GameManager gameManager;
     [SerializeField] private float speed = 2f;
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float chaseRange = 5f;
@@ -21,20 +17,30 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float damageCooldown = 1f;
     [SerializeField] private float patrolPointRadius = 0.1f;
     [SerializeField] private Transform[] patrolPoints;
+    
+    private Transform player;
+    private GameManager gameManager;
+    private Rigidbody2D rb;
+
     private float damageTimer = 0f;
     private int currentPatrolPoint = 0;
-    private Rigidbody2D rb;
+    private bool isInitialized = false;
+
     public EnemyState CurrentState => currentState;
 
     void Awake()
     {
-        Debug.Log("Enemy Awake");
         rb = GetComponent<Rigidbody2D>();
+
+        if (rb == null)
+        {
+            Debug.LogError("Enemy is missing a Rigidbody2D.");
+            return;
+        }
     }
 
     void Start()
     {
-        Debug.Log("Enemy Start");
         GameObject playerObject =
             GameObject.FindGameObjectWithTag("Player");
 
@@ -44,19 +50,28 @@ public class Enemy : MonoBehaviour
         }
 
         gameManager = FindFirstObjectByType<GameManager>();
-    }
 
-    void MoveToward(Vector2 targetPosition)
-    {
-        Vector2 direction = (targetPosition - rb.position).normalized;
+        if (player == null)
+        {
+            Debug.LogError("Enemy could not find the Player.", this);
+            return;
+        }
 
-        rb.MovePosition(
-            rb.position + direction * speed * Time.fixedDeltaTime
-        );
+        if (gameManager == null)
+        {
+            Debug.LogError("Enemy could not find the GameManager.");
+            return;
+        }
+        isInitialized = true;
     }
     
-    void Update()
+    void Update()    
     {
+        if (isInitialized != true)
+        {
+            return;
+        }
+
         if (gameManager.currentState != GameManager.GameState.Playing)
         {
             return;
@@ -68,40 +83,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void Patrol()
+    void FixedUpdate()
     {
-        if (patrolPoints.Length < 2)
+        if (isInitialized != true)
         {
             return;
         }
         
-        Transform targetPoint = patrolPoints[currentPatrolPoint];
-
-        Vector2 toTarget =
-            (Vector2)targetPoint.position - rb.position;
-
-        float distanceToTarget = toTarget.magnitude;
-
-        if (distanceToTarget < patrolPointRadius)
-        {
-            currentPatrolPoint =
-                (currentPatrolPoint + 1) % patrolPoints.Length;
-            return;
-        }
-
-        MoveToward((Vector2)targetPoint.position);
-    }
-
-    void ChangeState(EnemyState newState)
-    {
-        if (currentState != newState)
-        {
-            currentState = newState;
-        }
-    }
-
-    void FixedUpdate()
-    {
         if (gameManager.currentState != GameManager.GameState.Playing)
         {
             return;
@@ -141,8 +129,53 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    void MoveToward(Vector2 targetPosition)
+    {
+        Vector2 direction = (targetPosition - rb.position).normalized;
+
+        rb.MovePosition(
+            rb.position + direction * speed * Time.fixedDeltaTime
+        );
+    }
+
+    void Patrol()
+    {
+        if (patrolPoints.Length < 2)
+        {
+            return;
+        }
+        
+        Transform targetPoint = patrolPoints[currentPatrolPoint];
+
+        Vector2 toTarget =
+            (Vector2)targetPoint.position - rb.position;
+
+        float distanceToTarget = toTarget.magnitude;
+
+        if (distanceToTarget < patrolPointRadius)
+        {
+            currentPatrolPoint =
+                (currentPatrolPoint + 1) % patrolPoints.Length;
+            return;
+        }
+
+        MoveToward((Vector2)targetPoint.position);
+    }
+
+    void ChangeState(EnemyState newState)
+    {
+        if (currentState != newState)
+        {
+            currentState = newState;
+        }
+    }
+
     void OnTriggerStay2D(Collider2D other)
     {
+        if (isInitialized != true)
+        {
+            return;
+        }
 
         if (gameManager.currentState != GameManager.GameState.Playing)
         {
@@ -168,21 +201,22 @@ public class Enemy : MonoBehaviour
         }
         
     }
+
     void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.yellow;
+    {
+        Gizmos.color = Color.yellow;
 
-            Gizmos.DrawWireSphere(
-                transform.position,
-                chaseRange
-            );
+        Gizmos.DrawWireSphere(
+            transform.position,
+            chaseRange
+        );
 
-            Gizmos.color = Color.red;
+        Gizmos.color = Color.red;
 
-            Gizmos.DrawWireSphere(
-                transform.position,
-                attackRange
-            );
-        }
+        Gizmos.DrawWireSphere(
+            transform.position,
+            attackRange
+        );
+    }
 }
 
