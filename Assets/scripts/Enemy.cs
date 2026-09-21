@@ -1,5 +1,8 @@
+using System.Net;
 using UnityEngine;
+using System.Collections.Generic;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
 {
     public enum EnemyState
@@ -9,12 +12,19 @@ public class Enemy : MonoBehaviour
         Attack
     }
 
+    [Header("State")]
     [SerializeField] private EnemyState currentState = EnemyState.Idle;
+
+    [Header("Movement")]
     [SerializeField] private float speed = 2f;
     [SerializeField] private float attackRange = 1f;
     [SerializeField] private float chaseRange = 5f;
+
+    [Header("Combat")]
     [SerializeField] private int damage = 1;
     [SerializeField] private float damageCooldown = 1f;
+
+    [Header("Patrol")]
     [SerializeField] private float patrolPointRadius = 0.1f;
     [SerializeField] private Transform[] patrolPoints;
     
@@ -25,21 +35,24 @@ public class Enemy : MonoBehaviour
     private float damageTimer = 0f;
     private int currentPatrolPoint = 0;
     private bool isInitialized = false;
+    private static int enemyCount = 0;
+    public static int EnemyCount => enemyCount;
 
     public EnemyState CurrentState => currentState;
 
-    void Awake()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
 
-        if (rb == null)
-        {
-            Debug.LogError("Enemy is missing a Rigidbody2D.");
-            return;
-        }
+        enemyCount++;
+        Debug.Log(
+        gameObject.name +
+        " created. Total enemies: " +
+        enemyCount
+        );
     }
 
-    void Start()
+    private void Start()
     {
         GameObject playerObject =
             GameObject.FindGameObjectWithTag("Player");
@@ -63,9 +76,31 @@ public class Enemy : MonoBehaviour
             return;
         }
         isInitialized = true;
+        Debug.Log("I am " + gameObject.name);
+
+//temp code
+
+int coins = 2;
+
+Toolbox toolbox = new Toolbox();
+toolbox.StoreTool("small", new RepairTool(1));
+
+
+Crate crate = new Crate();
+crate.TakeDamage(4);
+
+coins = RepairWithCoin(coins, toolbox, "small", crate, 2);
+
+
+Debug.Log("Final coins: " + coins);
+Debug.Log("Final durability: " + crate.Durability);
+
+//end temp code
+
     }
-    
-    void Update()    
+
+
+    private void Update()    
     {
         if (isInitialized != true)
         {
@@ -83,7 +118,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         if (isInitialized != true)
         {
@@ -129,7 +164,100 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void MoveToward(Vector2 targetPosition)
+
+
+    private int RepairWithCoin(
+        int coins,
+        Toolbox toolbox,
+        string toolName,
+        IRepairable target,
+        int cost)
+    {
+        if (cost <= 0)
+        {
+            return coins;
+        }
+            
+        if (coins >= cost && toolbox.UseTool(toolName, target))
+        {
+            coins -= cost;
+        }
+
+            return coins;
+
+
+    }
+
+    private void UseNamedTool(
+        Dictionary<string, RepairTool> toolbox,
+        string toolName,
+        IRepairable target)
+    {
+        if (toolbox.TryGetValue(toolName, out RepairTool namedTool))
+        {
+            namedTool.Use(target);
+        }
+        else
+        {
+            Debug.Log("Tool not found: " + toolName);
+        }
+        
+    }
+
+
+
+    private List<RepairTool> CreateTools(int count, int repairAmount)
+    {
+        List<RepairTool> newTools = new List<RepairTool>();
+
+        for (int i = 0; i < count; i++)
+        {
+            newTools.Add(new RepairTool(repairAmount));
+        }
+
+        return newTools;
+    }
+
+
+
+    private void RemoveEmptyTools(List<RepairTool> tools)
+    {
+        for (int i = tools.Count - 1; i >= 0; i--)
+        {
+            if (tools[i].UsesRemaining == 0)
+            {
+                tools.RemoveAt(i);
+            }
+        }
+    }
+    private void ReplaceTools(List<RepairTool> tools)
+    {
+        tools = new List<RepairTool>();
+
+        tools.Add(new RepairTool(3));
+
+        Debug.Log("Inside method: " + tools.Count);
+    }
+
+
+
+    private void DealDamage(IDamageable target, int amount)
+    {
+        target.TakeDamage(amount);
+    }
+    
+    private void OnDestroy()
+    {
+        enemyCount--;
+
+        Debug.Log(
+            gameObject.name +
+            " destroyed. Total enemies: " +
+            enemyCount
+        );
+    }
+
+    private void MoveToward(Vector2 targetPosition)
     {
         Vector2 direction = (targetPosition - rb.position).normalized;
 
@@ -138,7 +266,7 @@ public class Enemy : MonoBehaviour
         );
     }
 
-    void Patrol()
+    private void Patrol()
     {
         if (patrolPoints.Length < 2)
         {
@@ -162,7 +290,7 @@ public class Enemy : MonoBehaviour
         MoveToward((Vector2)targetPoint.position);
     }
 
-    void ChangeState(EnemyState newState)
+    private void ChangeState(EnemyState newState)
     {
         if (currentState != newState)
         {
@@ -170,7 +298,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         if (isInitialized != true)
         {
@@ -202,7 +330,7 @@ public class Enemy : MonoBehaviour
         
     }
 
-    void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
 
