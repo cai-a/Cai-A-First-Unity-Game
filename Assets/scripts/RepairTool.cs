@@ -14,7 +14,7 @@ public class RepairTool
 
     public bool Use(IRepairable target)
     {
-        if (target == null ||usesRemaining <= 0)
+        if (target == null || usesRemaining <= 0)
         {
             UnityEngine.Debug.Log("Repair unavailable.");
             return false;

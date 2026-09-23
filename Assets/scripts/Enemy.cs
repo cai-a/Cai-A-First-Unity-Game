@@ -79,22 +79,28 @@ public class Enemy : MonoBehaviour
         Debug.Log("I am " + gameObject.name);
 
 //temp code
-
-int coins = 2;
+Wallet wallet = new Wallet(6);
 
 Toolbox toolbox = new Toolbox();
 toolbox.StoreTool("small", new RepairTool(1));
 
-
 Crate crate = new Crate();
 crate.TakeDamage(4);
 
-coins = RepairWithCoin(coins, toolbox, "small", crate, 2);
+bool first = TryPurchaseRepair(
+    wallet, toolbox, "small", crate, 2);
 
+bool second = TryPurchaseRepair(
+    wallet, toolbox, "small", crate, 2);
 
-Debug.Log("Final coins: " + coins);
-Debug.Log("Final durability: " + crate.Durability);
+bool third = TryPurchaseRepair(
+    wallet, toolbox, "small", crate, 2);
 
+Debug.Log(first);
+Debug.Log(second);
+Debug.Log(third);
+Debug.Log(wallet.Coins);
+Debug.Log(crate.Durability);
 //end temp code
 
     }
@@ -164,6 +170,35 @@ Debug.Log("Final durability: " + crate.Durability);
         }
     }
 
+
+private bool TryPurchaseRepair(
+    Wallet wallet,
+    Toolbox toolbox,
+    string toolName,
+    IRepairable target,
+    int cost)
+{
+
+    if (wallet == null || toolbox == null || target == null)
+    {
+        return false;
+    }
+
+    if (string.IsNullOrWhiteSpace(toolName))
+    {
+        return false;
+    }
+    
+    if (wallet.CanAfford(cost) && toolbox.UseTool(toolName, target))
+    {
+        wallet.TrySpend(cost);
+        return true;
+    }
+
+    return false;
+
+
+} 
 
 
     private int RepairWithCoin(
