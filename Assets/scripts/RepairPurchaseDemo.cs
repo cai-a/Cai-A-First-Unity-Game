@@ -1,35 +1,70 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
+using TMPro;
 
 public class RepairPurchaseDemo : MonoBehaviour
 {
+
+    [SerializeField] private int startingCoins = 6;
+    [SerializeField] private int repairCost = 2;
+    [SerializeField] private TMP_Text statusText;
+    private Wallet wallet;
+    private Toolbox toolbox;
+    private Crate crate;
+
     private void Start()
     {
 
-    Wallet wallet = new Wallet(6);
+    wallet = new Wallet(startingCoins);
 
-    Toolbox toolbox = new Toolbox();
+    toolbox = new Toolbox();
     toolbox.StoreTool("small", new RepairTool(1));
 
-    Crate crate = new Crate();
+    crate = new Crate();
     crate.TakeDamage(4);
 
-    bool first = TryPurchaseRepair(
-        wallet, toolbox, "small", crate, 2);
-
-    bool second = TryPurchaseRepair(
-        wallet, toolbox, "small", crate, 2);
-
-    bool third = TryPurchaseRepair(
-        wallet, toolbox, "small", crate, 2);
-
-    Debug.Log(first);
-    Debug.Log(second);
-    Debug.Log(third);
-    Debug.Log(wallet.Coins);
-    Debug.Log(crate.Durability);
-
+    ShowCoins();
+    RefreshDisplay();
     }
 
+    private void Update()
+    {
+        Keyboard keyboard = Keyboard.current;
+
+        if (keyboard != null && keyboard.eKey.wasPressedThisFrame)
+        {
+            PurchaseRepair();
+        }
+    }
+
+    [ContextMenu("Purchase Repair")]
+    private void PurchaseRepair()
+    {
+        bool purchased = TryPurchaseRepair(
+            wallet, toolbox, "small", crate, repairCost);
+
+        Debug.Log("Purchased: " + purchased);
+        ShowCoins();
+        Debug.Log("Durability: " + crate.Durability);
+        RefreshDisplay();
+    }
+
+    private void ShowCoins()
+    {
+        Debug.Log("Wallet coins: " + wallet.Coins);
+    }
+
+    private void RefreshDisplay()
+{
+    if (statusText == null)
+    {
+        return;
+    }
+
+    statusText.text =
+        "Coins: " + wallet.Coins +
+        "\nDurability: " + crate.Durability;
+}
 
     private bool TryPurchaseRepair(
         Wallet wallet,
