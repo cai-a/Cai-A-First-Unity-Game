@@ -61,5 +61,17 @@ public class Toolbox
        
        }
 
+       public bool TryGetTool(string name, out RepairTool tool)
+        {
+            tool = null;
+
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return false;
+            }
+
+            return tools.TryGetValue(name, out tool);
+        }
+
 
 }
