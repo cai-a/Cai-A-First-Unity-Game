@@ -47,7 +47,7 @@ if (found)
     }
 
     [ContextMenu("Purchase Repair")]
-    private void PurchaseRepair()
+    public void PurchaseRepair()
     {
         RepairPurchaseResult result = TryPurchaseRepair(
             wallet, toolbox, "small", crate, repairCost);
