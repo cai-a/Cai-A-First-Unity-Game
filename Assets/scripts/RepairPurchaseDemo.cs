@@ -15,25 +15,7 @@ public class RepairPurchaseDemo : MonoBehaviour
 
     private void Start()
     {
-    
-    wallet = new Wallet(startingCoins);
-
-    toolbox = new Toolbox();
-    toolbox.StoreTool("small", new RepairTool(1));
-    bool found = toolbox.TryGetTool("small", out RepairTool selectedTool);
-
-Debug.Log(found);
-
-if (found)
-{
-    Debug.Log(selectedTool.UsesRemaining);
-}
-
-    crate = new Crate();
-    crate.TakeDamage(4);
-
-    ShowCoins();
-    RefreshDisplay();
+        ResetDemo();
     }
 
     private void Update()
@@ -44,6 +26,18 @@ if (found)
         {
             PurchaseRepair();
         }
+    }
+
+    public void ResetDemo()
+    {
+        wallet = new Wallet(startingCoins);
+        toolbox = new Toolbox();
+        toolbox.StoreTool("small", new RepairTool(1));
+        crate = new Crate();
+        crate.TakeDamage(4);
+        lastMessage = "Press E to repair.";
+        ShowCoins();
+        RefreshDisplay();
     }
 
     [ContextMenu("Purchase Repair")]
@@ -72,9 +66,17 @@ if (found)
         return;
     }
 
+    string toolStatus = "Tool missing";
+    if (toolbox.TryGetTool("small", out RepairTool selectedTool))
+        {
+            toolStatus = "Tool uses: " + selectedTool.UsesRemaining;
+        }
+
+
 statusText.text =
     "Coins: " + wallet.Coins +
     "\nDurability: " + crate.Durability +
+    "\n" + toolStatus +
     "\n" + lastMessage;
 }
 
