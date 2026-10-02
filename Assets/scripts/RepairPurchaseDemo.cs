@@ -42,6 +42,15 @@ public class RepairPurchaseDemo : MonoBehaviour
 
     }
 
+    public void DamageCrate()
+    {
+        crate.TakeDamage(1);
+        lastMessage = "Crate damaged!";
+        messageTimeRemaining = messageDuration;
+        RefreshDisplay();
+        
+    }
+
     public void ResetDemo()
     {
         wallet = new Wallet(startingCoins);
