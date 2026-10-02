@@ -1012,8 +1012,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 133, y: -231}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: -1.541, y: -231}
+  m_SizeDelta: {x: 107.978, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &366871382
 MonoBehaviour:
@@ -2549,7 +2549,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 133, y: -231}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 124.2348, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &967090129
 MonoBehaviour:
@@ -4440,6 +4440,7 @@ MonoBehaviour:
   startingCoins: 6
   repairCost: 2
   statusText: {fileID: 392217133}
+  messageDuration: 3
 --- !u!4 &2111863909
 Transform:
   m_ObjectHideFlags: 0

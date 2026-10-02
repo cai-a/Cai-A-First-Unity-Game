@@ -8,6 +8,8 @@ public class RepairPurchaseDemo : MonoBehaviour
     [SerializeField] private int startingCoins = 6;
     [SerializeField] private int repairCost = 2;
     [SerializeField] private TMP_Text statusText;
+    [SerializeField] private float messageDuration = 3f;
+    private float messageTimeRemaining; 
     private Wallet wallet;
     private Toolbox toolbox;
     private Crate crate;
@@ -26,6 +28,18 @@ public class RepairPurchaseDemo : MonoBehaviour
         {
             PurchaseRepair();
         }
+
+        if (messageTimeRemaining > 0f)
+        {
+            messageTimeRemaining -= Time.deltaTime;
+
+            if (messageTimeRemaining <= 0f)
+            {
+                lastMessage = "Press E to repair.";
+                RefreshDisplay();
+            }
+        }
+
     }
 
     public void ResetDemo()
@@ -37,6 +51,7 @@ public class RepairPurchaseDemo : MonoBehaviour
         crate.TakeDamage(4);
         lastMessage = "Press E to repair.";
         ShowCoins();
+        messageTimeRemaining = 0f;
         RefreshDisplay();
     }
 
@@ -47,6 +62,7 @@ public class RepairPurchaseDemo : MonoBehaviour
             wallet, toolbox, "small", crate, repairCost);
 
         lastMessage = GetResultMessage(result);
+        messageTimeRemaining = messageDuration;
         Debug.Log(lastMessage);
         ShowCoins();
         Debug.Log("Durability: " + crate.Durability);
