@@ -89,16 +89,37 @@ public class RepairPurchaseDemo : MonoBehaviour
 private void CheckWallet()
 {
     Wallet testWallet = new Wallet(5);
+    int changeCount = 0;
+
+testWallet.CoinsChanged += newBalance =>
+{
+    changeCount++;
+};
 
     bool spent = testWallet.TrySpend(2);
 
     Debug.Assert(spent, "Spending 2 from 5 should succeed.");
     Debug.Assert(testWallet.Coins == 3, "Expected 3 coins.");
+    Debug.Assert(changeCount == 1,
+    "A successful spend should raise one event.");
 
     bool secondSpend = testWallet.TrySpend(4);
     Debug.Assert(!secondSpend, "Spending 4 from 3 should fail.");
     Debug.Assert(testWallet.Coins == 3, "Expected 3 coins after failed spend.");
+    Debug.Assert(changeCount == 1,
+    "A rejected spend should not raise another event.");
+
+    bool exactSpend = testWallet.TrySpend(3);
+    Debug.Assert(exactSpend, "Spending 3 from 3 should succeed.");
+    Debug.Assert(testWallet.Coins == 0, "Expected 0 coins after exact spend.");
+    Debug.Assert(changeCount == 2,
+    "The second successful spend should raise another event.");
     
+    bool zeroSpend = testWallet.TrySpend(0);
+    Debug.Assert(!zeroSpend, "Spending 0 should fail.");
+    Debug.Assert(testWallet.Coins == 0, "Expected 0 coins after failed zero spend.");
+
+    Debug.Assert(changeCount == 2, "Expected 2 CoinsChanged events to be raised.");
 
     Debug.Log("Wallet checks finished.");
 }
