@@ -85,6 +85,24 @@ public class RepairPurchaseDemo : MonoBehaviour
         RefreshDisplay();
     }
 
+[ContextMenu("Check Wallet")]
+private void CheckWallet()
+{
+    Wallet testWallet = new Wallet(5);
+
+    bool spent = testWallet.TrySpend(2);
+
+    Debug.Assert(spent, "Spending 2 from 5 should succeed.");
+    Debug.Assert(testWallet.Coins == 3, "Expected 3 coins.");
+
+    bool secondSpend = testWallet.TrySpend(4);
+    Debug.Assert(!secondSpend, "Spending 4 from 3 should fail.");
+    Debug.Assert(testWallet.Coins == 3, "Expected 3 coins after failed spend.");
+    
+
+    Debug.Log("Wallet checks finished.");
+}
+
     public void DamageCrate()
     {
         crate.TakeDamage(1);

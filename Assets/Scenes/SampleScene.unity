@@ -4365,7 +4365,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2111863908}
         m_TargetAssemblyTypeName: RepairPurchaseDemo, Assembly-CSharp
-        m_MethodName: DamageCrate
+        m_MethodName: CollectCoin
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4979,7 +4979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e055b36955af46bbb8f580bc6538b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RepairPurchaseDemo
-  startingCoins: 5
+  startingCoins: 1
   repairCost: 2
   statusText: {fileID: 392217133}
   messageDuration: 3
