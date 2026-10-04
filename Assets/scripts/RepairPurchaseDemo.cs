@@ -114,7 +114,7 @@ testWallet.CoinsChanged += newBalance =>
     Debug.Assert(testWallet.Coins == 0, "Expected 0 coins after exact spend.");
     Debug.Assert(changeCount == 2,
     "The second successful spend should raise another event.");
-    
+
     bool zeroSpend = testWallet.TrySpend(0);
     Debug.Assert(!zeroSpend, "Spending 0 should fail.");
     Debug.Assert(testWallet.Coins == 0, "Expected 0 coins after failed zero spend.");
@@ -122,6 +122,35 @@ testWallet.CoinsChanged += newBalance =>
     Debug.Assert(changeCount == 2, "Expected 2 CoinsChanged events to be raised.");
 
     Debug.Log("Wallet checks finished.");
+}
+
+[ContextMenu("Check Coin Collection")]
+private void CheckCoinCollection()
+{
+    Wallet testWallet = new Wallet(1);
+    int changeCount = 0;
+
+    testWallet.CoinsChanged += newBalance =>
+    {
+        changeCount++;
+    };
+
+    bool added = testWallet.TryAddCoins(3);
+    Debug.Assert(added, "Adding 3 coins should succeed.");
+    Debug.Assert(testWallet.Coins == 4, "Expected 4 coins after adding.");
+    Debug.Assert(changeCount == 1, "Adding coins should raise one event.");
+
+    bool zeroAdd = testWallet.TryAddCoins(0);
+    Debug.Assert(!zeroAdd, "Adding zero coins should fail.");
+    Debug.Assert(testWallet.Coins == 4, "Expected 4 coins after failed zero add.");
+    Debug.Assert(changeCount == 1, "Failed zero add should not raise another event.");
+
+    bool negativeAdd = testWallet.TryAddCoins(-2);
+    Debug.Assert(!negativeAdd, "Adding negative coins should fail.");
+    Debug.Assert(testWallet.Coins == 4, "Expected 4 coins after failed add.");
+    Debug.Assert(changeCount == 1, "Failed add should not raise another event.");
+
+    Debug.Log("Coin collection checks finished.");
 }
 
     public void DamageCrate()
