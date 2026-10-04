@@ -10,7 +10,7 @@ public class Wallet
     }
 
     public int Coins => coins;
-    public event System.Action CoinsChanged;
+    public event System.Action<int> CoinsChanged;
 
     public bool TrySpend(int amount)
     {
@@ -20,10 +20,20 @@ public class Wallet
         }
 
         coins -= amount;
-        CoinsChanged?.Invoke(); 
+        CoinsChanged?.Invoke(coins);
         return true;
     }
+    public bool TryAddCoins(int amount)
+    {
+        if (amount <= 0)
+        {
+            return false;
+        }
 
+        coins += amount;
+        CoinsChanged?.Invoke(coins);
+        return true;
+    }
 
     public bool CanAfford(int amount)
     {

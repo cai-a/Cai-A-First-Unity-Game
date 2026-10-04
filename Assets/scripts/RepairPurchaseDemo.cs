@@ -42,9 +42,47 @@ public class RepairPurchaseDemo : MonoBehaviour
 
     }
 
-    private void HandleCoinsChanged()
+    public void ResetDemo()
     {
-        Debug.Log("Event received. Coins: " + wallet.Coins);
+        if (wallet != null)
+    {
+        wallet.CoinsChanged -= HandleCoinsChanged;
+        wallet.CoinsChanged -= HandleLowBalance;
+    }
+
+        wallet = new Wallet(startingCoins);
+        wallet.CoinsChanged += HandleCoinsChanged;
+        wallet.CoinsChanged += HandleLowBalance;
+        toolbox = new Toolbox();
+        toolbox.StoreTool("small", new RepairTool(1));
+        crate = new Crate();
+        crate.TakeDamage(4);
+        lastMessage = "Press E to repair.";
+        ShowCoins();
+        messageTimeRemaining = 0f;
+        RefreshDisplay();
+    }
+
+
+    private void HandleCoinsChanged(int newBalance)
+    {
+        Debug.Log("Event received. Coins: " + newBalance);
+    }
+
+    private void HandleLowBalance(int newBalance)
+    {
+        if (newBalance < repairCost)
+        {
+            Debug.Log("Not enough coins!");
+        }
+    }
+
+    public void CollectCoin()
+    {
+        wallet.TryAddCoins(1);
+        lastMessage = "Coin 1 collected!";
+        messageTimeRemaining = messageDuration;
+        RefreshDisplay();
     }
 
     public void DamageCrate()
@@ -60,26 +98,9 @@ private void OnDestroy()
     if (wallet != null)
     {
         wallet.CoinsChanged -= HandleCoinsChanged;
+        wallet.CoinsChanged -= HandleLowBalance;
     }
 }
-    public void ResetDemo()
-    {
-        if (wallet != null)
-    {
-        wallet.CoinsChanged -= HandleCoinsChanged;
-    }
-
-        wallet = new Wallet(startingCoins);
-        wallet.CoinsChanged += HandleCoinsChanged;
-        toolbox = new Toolbox();
-        toolbox.StoreTool("small", new RepairTool(1));
-        crate = new Crate();
-        crate.TakeDamage(4);
-        lastMessage = "Press E to repair.";
-        ShowCoins();
-        messageTimeRemaining = 0f;
-        RefreshDisplay();
-    }
 
     [ContextMenu("Purchase Repair")]
     public void PurchaseRepair()
