@@ -10,6 +10,7 @@ public class Wallet
     }
 
     public int Coins => coins;
+    public event System.Action CoinsChanged;
 
     public bool TrySpend(int amount)
     {
@@ -19,6 +20,7 @@ public class Wallet
         }
 
         coins -= amount;
+        CoinsChanged?.Invoke(); 
         return true;
     }
 
@@ -27,6 +29,5 @@ public class Wallet
     {
         return amount > 0 && coins >= amount;
     }
-
 
 }

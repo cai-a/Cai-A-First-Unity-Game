@@ -42,6 +42,11 @@ public class RepairPurchaseDemo : MonoBehaviour
 
     }
 
+    private void HandleCoinsChanged()
+    {
+        Debug.Log("Event received. Coins: " + wallet.Coins);
+    }
+
     public void DamageCrate()
     {
         crate.TakeDamage(1);
@@ -50,10 +55,22 @@ public class RepairPurchaseDemo : MonoBehaviour
         RefreshDisplay();
         
     }
-
+private void OnDestroy()
+{
+    if (wallet != null)
+    {
+        wallet.CoinsChanged -= HandleCoinsChanged;
+    }
+}
     public void ResetDemo()
     {
+        if (wallet != null)
+    {
+        wallet.CoinsChanged -= HandleCoinsChanged;
+    }
+
         wallet = new Wallet(startingCoins);
+        wallet.CoinsChanged += HandleCoinsChanged;
         toolbox = new Toolbox();
         toolbox.StoreTool("small", new RepairTool(1));
         crate = new Crate();
