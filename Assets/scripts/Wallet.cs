@@ -6,7 +6,8 @@ public class Wallet
 
     public Wallet (int startingCoins)
     {
-        coins = startingCoins;
+        coins = System.Math.Max (startingCoins, 0);
+
     }
 
     public int Coins => coins;
