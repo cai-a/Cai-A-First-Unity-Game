@@ -3274,11 +3274,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.CanvasScaler
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 600, y: 600}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -4979,7 +4979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e055b36955af46bbb8f580bc6538b2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RepairPurchaseDemo
-  startingCoins: 1
+  startingCoins: 6
   repairCost: 2
   statusText: {fileID: 392217133}
   messageDuration: 3
@@ -5374,6 +5374,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
+  - {fileID: 1034073104}
   - {fileID: 619394802}
   - {fileID: 935077703}
   - {fileID: 264495701}
@@ -5382,7 +5383,6 @@ SceneRoots:
   - {fileID: 663688314}
   - {fileID: 1385701163}
   - {fileID: 2134198576}
-  - {fileID: 1034073104}
   - {fileID: 1837647046}
   - {fileID: 2109389337}
   - {fileID: 776478688}

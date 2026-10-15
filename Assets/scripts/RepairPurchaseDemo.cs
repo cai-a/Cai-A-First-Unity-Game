@@ -9,6 +9,7 @@ public class RepairPurchaseDemo : MonoBehaviour
     [SerializeField] private int repairCost = 2;
     [SerializeField] private TMP_Text statusText;
     [SerializeField] private float messageDuration = 3f;
+    public event System.Action<int> DurabilityChanged;
     private float messageTimeRemaining; 
     private Wallet wallet;
     private Toolbox toolbox;
@@ -39,7 +40,6 @@ public class RepairPurchaseDemo : MonoBehaviour
                 RefreshDisplay();
             }
         }
-
     }
 
     public void ResetDemo()
@@ -49,6 +49,10 @@ public class RepairPurchaseDemo : MonoBehaviour
         wallet.CoinsChanged -= HandleCoinsChanged;
         wallet.CoinsChanged -= HandleLowBalance;
     }
+    if (crate != null)
+    {
+        crate.DurabilityChanged -= HandleDurabilityChanged;
+    }
 
         wallet = new Wallet(startingCoins);
         wallet.CoinsChanged += HandleCoinsChanged;
@@ -56,6 +60,7 @@ public class RepairPurchaseDemo : MonoBehaviour
         toolbox = new Toolbox();
         toolbox.StoreTool("small", new RepairTool(1));
         crate = new Crate();
+        crate.DurabilityChanged += HandleDurabilityChanged;
         crate.TakeDamage(4);
         lastMessage = "Press E to repair.";
         ShowCoins();
@@ -63,11 +68,33 @@ public class RepairPurchaseDemo : MonoBehaviour
         RefreshDisplay();
     }
 
+    private void HandleDurabilityChanged(int newDurability)
+    {
+        Debug.Log("Durability event: " + newDurability);
+    }
 
     private void HandleCoinsChanged(int newBalance)
     {
         Debug.Log("Event received. Coins: " + newBalance);
+        RefreshDisplay();
     }
+
+
+    //test
+
+    [ContextMenu("Grant 5 Coins")]
+    private void GrantFiveCoins()
+    {
+        if (wallet == null)
+        {
+            return;
+        }
+
+        wallet.TryAddCoins(5);
+    }
+
+    //temp 
+
 
     private void HandleLowBalance(int newBalance)
     {
@@ -161,14 +188,18 @@ private void CheckCoinCollection()
         RefreshDisplay();
         
     }
-private void OnDestroy()
-{
-    if (wallet != null)
+    private void OnDestroy()
     {
-        wallet.CoinsChanged -= HandleCoinsChanged;
-        wallet.CoinsChanged -= HandleLowBalance;
+        if (wallet != null)
+        {
+            wallet.CoinsChanged -= HandleCoinsChanged;
+            wallet.CoinsChanged -= HandleLowBalance;
+        }
+        if (crate != null)
+        {
+            crate.DurabilityChanged -= HandleDurabilityChanged;
+        }
     }
-}
 
     [ContextMenu("Purchase Repair")]
     public void PurchaseRepair()

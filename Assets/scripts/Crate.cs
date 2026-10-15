@@ -1,7 +1,9 @@
 using UnityEngine;
 
 public class Crate : IDamageable, IRepairable
+
 {
+    public event System.Action<int> DurabilityChanged;
     private int durability = 5;
     public int Durability => durability;
     public void TakeDamage(int amount)
@@ -19,6 +21,7 @@ public class Crate : IDamageable, IRepairable
         }
 
         durability = System.Math.Min(durability + amount, 5);
+        DurabilityChanged?.Invoke(durability);
 
         UnityEngine.Debug.Log("Crate durability: " + durability);
 
