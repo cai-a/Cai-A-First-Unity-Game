@@ -182,12 +182,20 @@ private void CheckCoinCollection()
 
     public void DamageCrate()
     {
+        int previousDurability = crate.Durability;
         crate.TakeDamage(1);
-        lastMessage = "Crate damaged!";
+        if (crate.Durability == previousDurability)
+        {
+            lastMessage = "No damage applied.";
+        }
+        else
+        {
+            lastMessage = "Crate damaged!";
+        }
         messageTimeRemaining = messageDuration;
-        RefreshDisplay();
-        
+        RefreshDisplay();    
     }
+    
     private void OnDestroy()
     {
         if (wallet != null)

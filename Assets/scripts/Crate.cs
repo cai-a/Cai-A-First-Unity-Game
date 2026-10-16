@@ -8,8 +8,13 @@ public class Crate : IDamageable, IRepairable
     public int Durability => durability;
     public void TakeDamage(int amount)
     {
-        durability = System.Math.Max(durability - amount, 0);
+        if (amount <= 0 || durability <= 0)
+        {
+            return;
+        }
 
+        durability = System.Math.Max(durability - amount, 0);
+        DurabilityChanged?.Invoke(durability);
         UnityEngine.Debug.Log("Crate durability: " + durability);
     }
 
