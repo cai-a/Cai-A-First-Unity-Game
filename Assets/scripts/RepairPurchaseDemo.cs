@@ -195,7 +195,35 @@ private void CheckCoinCollection()
         messageTimeRemaining = messageDuration;
         RefreshDisplay();    
     }
+
     
+    [ContextMenu("Check Crate Damage")]
+    private void CheckCrateDamage()
+    {
+        Crate testCrate = new Crate();
+        int changeCount = 0;
+        int lastReportedDurability = -1;
+
+        testCrate.DurabilityChanged += newDurability =>
+        {
+            changeCount++;
+            lastReportedDurability = newDurability;
+        };
+
+        testCrate.TakeDamage(10);
+
+        Debug.Assert(testCrate.Durability == 0, "Expected durability to be 0 after taking 10 damage.");
+        Debug.Assert(changeCount == 1, "Expected one DurabilityChanged event to be raised.");
+        Debug.Assert(lastReportedDurability == 0, "Expected last reported durability to be 0.");
+
+        testCrate.TakeDamage(1);
+
+        Debug.Assert(testCrate.Durability == 0, "Expected durability to remain 0 after taking additional damage.");
+        Debug.Assert(changeCount == 1, "Expected no additional DurabilityChanged events to be raised.");
+
+        Debug.Log("Crate damage checks finished.");
+    }
+
     private void OnDestroy()
     {
         if (wallet != null)

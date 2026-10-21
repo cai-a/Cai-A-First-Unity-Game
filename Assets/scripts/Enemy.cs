@@ -77,10 +77,7 @@ public class Enemy : MonoBehaviour
         }
         isInitialized = true;
         Debug.Log("I am " + gameObject.name);
-
-
     }
-
 
     private void Update()    
     {
