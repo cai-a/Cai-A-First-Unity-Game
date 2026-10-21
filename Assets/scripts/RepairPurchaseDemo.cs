@@ -7,9 +7,9 @@ public class RepairPurchaseDemo : MonoBehaviour
 
     [SerializeField] private int startingCoins = 6;
     [SerializeField] private int repairCost = 2;
+    [SerializeField] private int strongRepairCost = 3;
     [SerializeField] private TMP_Text statusText;
     [SerializeField] private float messageDuration = 3f;
-    public event System.Action<int> DurabilityChanged;
     private float messageTimeRemaining; 
     private Wallet wallet;
     private Toolbox toolbox;
@@ -23,12 +23,21 @@ public class RepairPurchaseDemo : MonoBehaviour
 
     private void Update()
     {
+
+        // adding a new button to use a different tool (strong) that has a different repair amount
         Keyboard keyboard = Keyboard.current;
 
         if (keyboard != null && keyboard.eKey.wasPressedThisFrame)
         {
-            PurchaseRepair();
+            PurchaseSmallRepair();
         }
+//here:
+        if (keyboard != null && keyboard.qKey.wasPressedThisFrame)
+        {
+            PurchaseStrongRepair();
+        }
+
+        //end
 
         if (messageTimeRemaining > 0f)
         {
@@ -59,6 +68,9 @@ public class RepairPurchaseDemo : MonoBehaviour
         wallet.CoinsChanged += HandleLowBalance;
         toolbox = new Toolbox();
         toolbox.StoreTool("small", new RepairTool(1));
+        //new tool creation
+        toolbox.StoreTool("strong", new RepairTool(2));
+
         crate = new Crate();
         crate.DurabilityChanged += HandleDurabilityChanged;
         crate.TakeDamage(4);
@@ -237,11 +249,12 @@ private void CheckCoinCollection()
         }
     }
 
-    [ContextMenu("Purchase Repair")]
-    public void PurchaseRepair()
+
+    // updating purchase repair so it can work with a new tool that has a different repair amount (strong)  
+    public void PurchaseRepair(string toolName, int repairCost)
     {
         RepairPurchaseResult result = TryPurchaseRepair(
-            wallet, toolbox, "small", crate, repairCost);
+            wallet, toolbox, toolName, crate, repairCost);
 
         lastMessage = GetResultMessage(result);
         messageTimeRemaining = messageDuration;
@@ -250,6 +263,17 @@ private void CheckCoinCollection()
         Debug.Log("Durability: " + crate.Durability);
         RefreshDisplay();
         
+    }
+//added 2 methods for different repairs 
+    [ContextMenu("Purchase Repair")]
+    public void PurchaseSmallRepair()
+    {
+        PurchaseRepair("small", repairCost);
+    }
+
+    public void PurchaseStrongRepair()
+    {
+        PurchaseRepair("strong", strongRepairCost);
     }
 
     private void ShowCoins()
@@ -263,18 +287,25 @@ private void CheckCoinCollection()
     {
         return;
     }
-
-    string toolStatus = "Tool missing";
+//changed trygettool("small"... to toolName...) 
+    string toolStatusOne = "Tool missing";
+    string toolStatusTwo = "Tool missing";
     if (toolbox.TryGetTool("small", out RepairTool selectedTool))
         {
-            toolStatus = "Tool uses: " + selectedTool.UsesRemaining;
+            toolStatusOne = "Tool 1 uses: " + selectedTool.UsesRemaining;
+        }
+
+    if (toolbox.TryGetTool("strong", out RepairTool selectedToolTwo))
+        {
+            toolStatusTwo = "Tool 2 uses: " + selectedToolTwo.UsesRemaining;
         }
 
 
 statusText.text =
     "Coins: " + wallet.Coins +
     "\nDurability: " + crate.Durability +
-    "\n" + toolStatus +
+    "\n" + toolStatusOne +
+    "\n" + toolStatusTwo +
     "\n" + lastMessage;
 }
 
