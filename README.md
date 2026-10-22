@@ -41,6 +41,20 @@ I'm learning C#, Unity, Git, and software development fundamentals by building s
 6. Press Play. Click inside the Game view to give it keyboard
    focus, then use the controls listed above.
 
+## How to Survive
+
+Collect **5 dark purple circles** to win and stop all the enemies. Watch the bright red fire pit nearby: it deals **1 damage** each time you touch it.
+
+- **Dark red enemy:** Moves slowly but deals **3 damage** per hit. One hit can end your run.
+- **Brown enemy:** Chases you when you get close and deals **1 damage per second** while you remain in contact. Get far enough away and it stops chasing.
+- **Pink enemy:** Patrols four points near the purple circles and deals **1 damage** per hit. It chases you within range and returns to patrolling when you escape.
+
+Avoid the dark pit—it kills you instantly. The nearby pool of acid and blood deals **2 damage**, which can also be fatal if your health is low.
+
+Need healing? The green triangle restores **1 health**, and the yellow stick restores you to full health.
+
+Remember: you’re faster than all three enemies naturally, and you can double your speed by holding Left Shift. Try to lure and strand some enemies. You can win this. Good luck!
+
 ## Built With
 
 - Unity
