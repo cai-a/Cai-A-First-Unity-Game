@@ -5,6 +5,13 @@ public class PlayerMovement : MonoBehaviour
 {
     public float speed = 5f;
     public float sprintSpeed = 10f;
+    private Rigidbody2D rb;
+    private Vector2 desiredVelocity;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody2D>();
+    }
 
     void Update()
     {
@@ -41,7 +48,20 @@ public class PlayerMovement : MonoBehaviour
             movement.x += 1;
         }
 
-        transform.position +=
-            (Vector3)(movement.normalized * currentSpeed * Time.deltaTime);
+        desiredVelocity = movement.normalized * currentSpeed;
+    }
+    private void FixedUpdate()
+    {
+        rb.linearVelocity = desiredVelocity;
+    }
+
+    private void OnDisable()
+    {
+        desiredVelocity = Vector2.zero;
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
     }
 }

@@ -434,7 +434,7 @@ GameObject:
   - component: {fileID: 131939724}
   - component: {fileID: 131939725}
   - component: {fileID: 131939726}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: bottom wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2603,7 +2603,7 @@ GameObject:
   - component: {fileID: 912610357}
   - component: {fileID: 912610360}
   - component: {fileID: 912610359}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2698,23 +2698,23 @@ CompositeCollider2D:
   - m_Collider: {fileID: 2038146767}
     m_ColliderPaths:
     - - X: -73974496
-        Y: -26199998
+        Y: 6314101
       - X: -76399504
-        Y: -26199998
+        Y: 6314101
       - X: -76399504
-        Y: -101404000
+        Y: -101404096
       - X: -73974496
-        Y: -101404000
+        Y: -101404096
   - m_Collider: {fileID: 1696832171}
     m_ColliderPaths:
     - - X: 75499504
-        Y: -20219726
+        Y: 5610518
       - X: 73074496
-        Y: -20219726
+        Y: 5610518
       - X: 73074496
-        Y: -102200272
+        Y: -102200528
       - X: 75499504
-        Y: -102200272
+        Y: -102200528
   - m_Collider: {fileID: 131939726}
     m_ColliderPaths:
     - - X: 74930200
@@ -2737,22 +2737,22 @@ CompositeCollider2D:
         Y: 2708442
   m_CompositePaths:
     m_Paths:
-    - - {x: 7.5680904, y: 0.2708442}
+    - - {x: 7.4929905, y: -10.240035}
+      - {x: 7.4930496, y: -10.220053}
+      - {x: 7.5499506, y: -10.220023}
+      - {x: 7.54998, y: 0.2708442}
+      - {x: 7.56812, y: 0.27087352}
       - {x: 7.5680904, y: 0.6433556}
       - {x: -7.56812, y: 0.6433263}
-      - {x: -7.5680904, y: 0.2708442}
-    - - {x: 7.4929905, y: -10.240035}
-      - {x: 7.4930496, y: -10.220027}
-      - {x: 7.5499506, y: -10.219997}
-      - {x: 7.549921, y: -2.0219727}
-      - {x: 7.30745, y: -2.022002}
-      - {x: 7.3074203, y: -9.9197645}
-      - {x: -7.3974495, y: -9.919735}
-      - {x: -7.397479, y: -2.62}
-      - {x: -7.6399503, y: -2.6200292}
+      - {x: -7.5681496, y: 0.6314101}
+      - {x: -7.6399503, y: 0.6313808}
       - {x: -7.6399803, y: -9.9197645}
       - {x: -7.64322, y: -9.919794}
       - {x: -7.6431904, y: -10.240035}
+    - - {x: 7.30745, y: -9.919735}
+      - {x: -7.3974495, y: -9.919735}
+      - {x: -7.39742, y: 0.2708442}
+      - {x: 7.30745, y: 0.2708148}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
   m_UseDelaunayMesh: 0
@@ -2764,7 +2764,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912610356}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
@@ -2922,10 +2922,10 @@ Rigidbody2D:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!61 &935077705
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -3246,6 +3246,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_SleepingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3294346236378923278, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: m_Name
       value: EnemyTank
@@ -3322,6 +3346,30 @@ PrefabInstance:
     - target: {fileID: 1781043235180820546, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_SleepingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3294346236378923278, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: m_Name
@@ -3834,7 +3882,7 @@ GameObject:
   - component: {fileID: 1393016391}
   - component: {fileID: 1393016392}
   - component: {fileID: 1393016393}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: top wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4565,7 +4613,7 @@ GameObject:
   - component: {fileID: 1696832169}
   - component: {fileID: 1696832170}
   - component: {fileID: 1696832171}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: right wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4581,8 +4629,8 @@ Transform:
   m_GameObject: {fileID: 1696832168}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 7.4287, y: -6.121, z: 0}
-  m_LocalScale: {x: 0.2425, y: 8.198054, z: 100}
+  m_LocalPosition: {x: 7.4287, y: -4.8295, z: 0}
+  m_LocalScale: {x: 0.2425, y: 10.781104, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 912610358}
@@ -5052,7 +5100,7 @@ GameObject:
   - component: {fileID: 2038146765}
   - component: {fileID: 2038146766}
   - component: {fileID: 2038146767}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: left wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5068,8 +5116,8 @@ Transform:
   m_GameObject: {fileID: 2038146764}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.5187, y: -6.3802, z: 0}
-  m_LocalScale: {x: 0.2425, y: 7.5204, z: 100}
+  m_LocalPosition: {x: -7.5187, y: -4.7545, z: 0}
+  m_LocalScale: {x: 0.2425, y: 10.77182, z: 100}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 912610358}
@@ -5736,6 +5784,30 @@ PrefabInstance:
     - target: {fileID: 1781043235180820546, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_BodyType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_SleepingMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106278065615679139, guid: 448f26eacd61a411ca22383c60613326, type: 3}
+      propertyPath: m_CollisionDetection
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3294346236378923278, guid: 448f26eacd61a411ca22383c60613326, type: 3}
       propertyPath: m_Name

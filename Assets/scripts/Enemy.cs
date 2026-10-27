@@ -99,6 +99,8 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+        rb.linearVelocity = Vector2.zero;
+        
         if (isInitialized != true)
         {
             return;
@@ -223,6 +225,13 @@ public class Enemy : MonoBehaviour
         target.TakeDamage(amount);
     }
     
+    private void OnDisable()
+    {
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+    }
     private void OnDestroy()
     {
         enemyCount--;
@@ -238,9 +247,7 @@ public class Enemy : MonoBehaviour
     {
         Vector2 direction = (targetPosition - rb.position).normalized;
 
-        rb.MovePosition(
-            rb.position + direction * speed * Time.fixedDeltaTime
-        );
+        rb.linearVelocity = direction * speed;
     }
 
     private void Patrol()
