@@ -144,4 +144,23 @@ public class WalletTests
         Assert.That(testWallet.Coins, Is.EqualTo(expectedBalance));
     }
 
+    [Test]
+    public void CheckingAffordabilityDoesNotSpendCoinsOrRaiseEvent()
+    {
+        Wallet testWallet = new Wallet(5);
+        int changeCount = 0;
+        testWallet.CoinsChanged += newBalance =>
+        {
+            changeCount++;
+        };
+
+        bool canAfford = testWallet.CanAfford(3);
+        bool canAfford2 = testWallet.CanAfford(3);
+
+        Assert.That(canAfford, Is.True);
+        Assert.That(canAfford2, Is.True);
+        Assert.That(testWallet.Coins, Is.EqualTo(5));
+        Assert.That(changeCount, Is.EqualTo(0));
+    }
+
 }
