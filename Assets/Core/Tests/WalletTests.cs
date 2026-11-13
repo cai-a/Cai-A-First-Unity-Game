@@ -131,4 +131,17 @@ public class WalletTests
         Assert.That(lastReportedBalance, Is.EqualTo(-1));
     }
 
+
+
+    [TestCase(-5, 0)]
+    [TestCase(0, 0)]
+    [TestCase(5, 5)]
+    public void StartingBalanceFollowsWalletRules(
+        int startingCoins,
+        int expectedBalance)
+    {
+        Wallet testWallet = new Wallet(startingCoins);
+        Assert.That(testWallet.Coins, Is.EqualTo(expectedBalance));
+    }
+
 }
