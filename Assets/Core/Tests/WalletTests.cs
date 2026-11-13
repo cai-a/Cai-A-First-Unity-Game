@@ -40,35 +40,95 @@ public class WalletTests
 
     }
 
-[TestCase(0)]
-[TestCase(-2)]
-public void SpendingInvalidAmountFailsWithoutChangingBalance(int amount)
-{
-    Wallet testWallet = new Wallet(5);
-
-    bool spent = testWallet.TrySpend(amount);
-
-    Assert.That(spent, Is.False);
-    Assert.That(testWallet.Coins, Is.EqualTo(5));
-}
-
-[Test]
-public void SuccessfulSpendRaisesCoinsChangedOnce()
-{
-    Wallet testWallet = new Wallet(5);
-    int changeCount = 0;
-    int lastReportedBalance = -1;
-
-    testWallet.CoinsChanged += newBalance =>
+    [TestCase(0)]
+    [TestCase(-2)]
+    public void SpendingInvalidAmountFailsWithoutChangingBalance(int amount)
     {
-        changeCount++;
-        lastReportedBalance = newBalance;
-    };
+        Wallet testWallet = new Wallet(5);
 
-    testWallet.TrySpend(2);
+        bool spent = testWallet.TrySpend(amount);
 
-    Assert.That(changeCount, Is.EqualTo(1));
-    Assert.That(lastReportedBalance, Is.EqualTo(3));
-}
+        Assert.That(spent, Is.False);
+        Assert.That(testWallet.Coins, Is.EqualTo(5));
+    }
+
+    [Test]
+    public void SuccessfulSpendRaisesCoinsChangedOnce()
+    {
+        Wallet testWallet = new Wallet(5);
+        int changeCount = 0;
+        int lastReportedBalance = -1;
+
+        testWallet.CoinsChanged += newBalance =>
+        {
+            changeCount++;
+            lastReportedBalance = newBalance;
+        };
+
+        testWallet.TrySpend(2);
+
+        Assert.That(changeCount, Is.EqualTo(1));
+        Assert.That(lastReportedBalance, Is.EqualTo(3));
+    }
+
+    [TestCase(0)]
+    [TestCase(-2)]
+    [TestCase(6)]
+    public void RejectedSpendDoesNotRaiseCoinsChanged(int amount)
+        {
+            Wallet testWallet = new Wallet(5);
+            int changeCount = 0;
+            testWallet.CoinsChanged += newBalance =>
+            {
+                changeCount++;
+            };
+            
+            testWallet.TrySpend(amount);
+            Assert.That(changeCount, Is.EqualTo(0));
+
+        }
+
+        [Test]
+    public void AddingCoinsUpdatesBalanceAndRaisesEventOnce()
+    {
+        Wallet testWallet = new Wallet(2);
+        int changeCount = 0;
+        int lastReportedBalance = -1;
+
+        testWallet.CoinsChanged += newBalance =>
+        {
+            changeCount++;
+            lastReportedBalance = newBalance;
+        };
+
+        bool added = testWallet.TryAddCoins(3);
+
+        Assert.That(added, Is.True);
+        Assert.That(testWallet.Coins, Is.EqualTo(5));
+        Assert.That(changeCount, Is.EqualTo(1));
+        Assert.That(lastReportedBalance, Is.EqualTo(5));
+    }
+
+    [TestCase(0)]
+    [TestCase(-2)]
+    public void AddingInvalidAmountDoesNotChangeBalanceOrRaiseEvent(int amount)
+    {
+        Wallet testWallet = new Wallet(5);
+        int changeCount = 0;
+        int lastReportedBalance = -1;
+        
+        testWallet.CoinsChanged += newBalance =>
+        {
+            changeCount++;
+            lastReportedBalance = newBalance;
+        };
+
+        bool added = testWallet.TryAddCoins(amount);
+
+        Assert.That(added, Is.False);
+        Assert.That(testWallet.Coins, Is.EqualTo(5));
+        Assert.That(changeCount, Is.EqualTo(0));
+        Assert.That(lastReportedBalance, Is.EqualTo(-1));
+    }
 
 }
